@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mao-dispatch/channels/wuhen-removal/video.watermark_removal.input.json",
+  "title": "无痕去水印 video.watermark_removal input constraints",
+  "description": "无痕去水印对本渠道七个提交参数的取值约束。参数形状由协议 TaskInput 唯一定义；本文件只说明本渠道怎么用这些字段。只对视频去水印：videos[0] 是待处理片，videos[1] 是可选的结果落点；未给 videos[1] 时用 config.json 的 upload_url 或对象存储。两者都支持平台资源库的本机 file:// 路径：无痕只认公网地址，所以本地视频由渠道先上传到对象存储（storage_*），没配对象存储时退回渠道内置文件服务（asset_public_base_url）。images 不去水印，成功结果直接回原链接。videos[0] 的路径若是图片后缀，也按图片原样返回。",
+  "type": "object",
+  "properties": {
+    "prompt": {
+      "description": "协议必填。本渠道不消费提示词语义，填 watermark_removal 即可。",
+      "maxLength": 4000
+    },
+    "images": {
+      "description": "图片不提交无痕。给了 videos[1] 时把原图字节写到该落点，查询回落点链接。没有落点时直接回原链接。",
+      "maxItems": 16
+    },
+    "videos": {
+      "description": "videos[0] 待去水印视频：公网 http(s) 地址，或平台资源库下发的本机 file:// 路径。路径是图片后缀时不当视频，直接返回该原链接。videos[1] 可选，结果落点：公网预签名 PUT 地址，或要求成片写回本机的 file:// 路径。没有视频、只有图片时可以不填。",
+      "maxItems": 2
+    },
+    "audios": {
+      "description": "本渠道不使用音频素材。",
+      "maxItems": 0
+    },
+    "aspect_ratio": {
+      "description": "去水印不改画面比例，调用方可不填。",
+      "enum": ["1:1", "4:3", "3:4", "16:9", "9:16", "21:9"]
+    },
+    "resolution": {
+      "description": "去水印不改分辨率档，调用方可不填。",
+      "enum": ["480p", "720p", "1080p", "2K", "4K"]
+    },
+    "duration": {
+      "description": "去水印不改时长。0 表示未指定。",
+      "minimum": 0
+    }
+  }
+}

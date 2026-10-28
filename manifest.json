@@ -1,0 +1,20 @@
+{
+  "manifestVersion": "1.0",
+  "plugin": {
+    "id": "wuhen-removal",
+    "name": "无痕去水印",
+    "vendor": "WuhenAI",
+    "description": "无痕 AI 视频去水印渠道插件：视频提交上游 video_removal，图片不处理并直接返回原链接。"
+  },
+  "version": "0.1.9",
+  "protocolVersion": "channel.v1",
+  "runtime": {
+    "language": "go",
+    "type": "process",
+    "entrypoint": "wuhen-removal-channel",
+    "heartbeatIntervalSeconds": 10
+  },
+  "capabilities": {
+    "expectedCount": 2
+  }
+}
